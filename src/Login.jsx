@@ -39,20 +39,20 @@ class Login extends Component {
     return (
       <form onSubmit={this.submitHandler}>
         <div>
-          <h2>Log In:</h2>
+          <h3>Log In:</h3>
         </div>
         Username:
         <input
           type="text"
           onChange={this.usernameChange}
           value={this.state.usernameInput}
-        ></input>
+        ></input>{" "}
         Password:
         <input
           type="text"
           onChange={this.passwordChange}
           value={this.state.passwordInput}
-        ></input>
+        ></input>{" "}
         <input type="submit" value="Log In" />
       </form>
     );

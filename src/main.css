@@ -36,6 +36,48 @@ body {
   margin: 0px;
 }
 
+.nav-container {
+  position: relative;
+  display: flex;
+  height: 55px;
+}
+
+.shopping-cart {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+.cart-icon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+#cart-count {
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  background: red;
+  color: white;
+  border: solid black 3px;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indent {
+  margin-left: 10px;
+}
+
 form {
   font-family: "Verdana", Geneva, sans-serif;
   padding: 10px;

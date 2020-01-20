@@ -34,20 +34,20 @@ class Signup extends Component {
     return (
       <form onSubmit={this.submitHandler}>
         <div>
-          <h2>SignUp:</h2>
+          <h3>SignUp:</h3>
         </div>
         Username:
         <input
           type="text"
           onChange={this.usernameChange}
           value={this.state.usernameInput}
-        ></input>
+        ></input>{" "}
         Password:
         <input
           type="text"
           onChange={this.passwordChange}
           value={this.state.passwordInput}
-        ></input>
+        ></input>{" "}
         <input type="submit" value="Sign Up" />
       </form>
     );
