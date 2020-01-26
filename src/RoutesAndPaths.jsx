@@ -21,10 +21,6 @@ class Routes extends Component {
     if (this.props.username === undefined) {
       return (
         <>
-          <div className="banner">
-            <img src="/icons/lego-man.png" height="80px" />
-            <h2 className="no-margin">The Brick House</h2>
-          </div>
           <Login />
           <Signup />
           {

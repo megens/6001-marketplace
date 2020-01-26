@@ -36,10 +36,27 @@ body {
   margin: 0px;
 }
 
-.nav-container {
+.top-banner {
   position: relative;
   display: flex;
   height: 55px;
+}
+
+.side-banner {
+  width: 100px;
+  position: relative;
+  display: block;
+  font-family: "Verdana", Geneva, sans-serif;
+  background: linear-gradient(to bottom, #cc0000 0%, #ff6666 100%);
+  color: white;
+  padding: 10px;
+  border: 1px solid white;
+  margin: 10px;
+}
+
+.side-and-body {
+  position: relative;
+  display: flex;
 }
 
 .shopping-cart {

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link, Route, BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
 //import LinkButton from "./LinkButton.jsx";
+import TopBanner from "./TopBanner.jsx";
+import SideBanner from "./SideBanner.jsx";
 import { RoutesAndPaths } from "./RoutesAndPaths.jsx";
 
 class App extends Component {
@@ -13,23 +15,11 @@ class App extends Component {
     return (
       <>
         <BrowserRouter>
-          <div className="nav-container">
-            <Link to={"/shop"}>Shop</Link>
-            <span className="shopping-cart">
-              <Link to={"/cart"}>
-                <img
-                  src="/icons/shopping_cart-24px (1).svg"
-                  className="cart-icon"
-                  height="50px"
-                />
-                <span id="cart-count">{this.props.cartTotal}</span>
-                {
-                  // change this to cart contents size, soon!//
-                }
-              </Link>
-            </span>
+          <TopBanner />
+          <div className="side-and-body">
+            <SideBanner />
+            <RoutesAndPaths />
           </div>
-          <RoutesAndPaths />
         </BrowserRouter>
       </>
     );
