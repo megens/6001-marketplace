@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class Signup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { usernameInput: "", passwordInput: "" };
   }
   usernameChange = evt => {
@@ -26,13 +27,14 @@ class Signup extends Component {
     let parsed = JSON.parse(body);
     if (parsed.success) {
       console.log("signup success");
-      this.props.setUsername(username);
+      this.props.dispatch({ type: "LOGIN-SUCCESS", payload: username });
+      //this.props.setUsername(username);
     }
   };
 
   render = () => {
     return (
-      <form onSubmit={this.submitHandler}>
+      <form className="login-form" onSubmit={this.submitHandler}>
         <div>
           <h3>SignUp:</h3>
         </div>
@@ -55,4 +57,8 @@ class Signup extends Component {
   };
 }
 
-export default Signup;
+const mapStateToProps = state => {
+  return { loggedIn: state.loggedIn, username: state.username };
+};
+
+export default connect(mapStateToProps)(Signup);

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { usernameInput: "", passwordInput: "" };
   }
   usernameChange = evt => {
@@ -22,22 +23,24 @@ class Login extends Component {
     data.append("username", username);
     data.append("password", password);
     console.log(data);
-
     let response = await fetch("/login", { method: "POST", body: data });
     let body = await response.text();
     let parsed = JSON.parse(body);
-    console.log(parsed.success);
+    console.log("success is " + parsed.success);
     if (parsed.success) {
       console.log("login success");
-      console.log("here");
       console.log(parsed);
-      this.props.setUsername(username);
+      this.props.dispatch({
+        type: "LOGIN-SUCCESS",
+        payload: { username, cart: parsed.cart }
+      });
+      //this.props.setUsername(username);
     }
   };
 
   render = () => {
     return (
-      <form onSubmit={this.submitHandler}>
+      <form className="login-form" onSubmit={this.submitHandler}>
         <div>
           <h3>Log In:</h3>
         </div>
@@ -60,4 +63,9 @@ class Login extends Component {
   };
 }
 
-export default Login;
+const mapStateToProps = (state, props) => {
+  return { loggedIn: state.loggedIn, username: state.username };
+};
+// I'M INCLUDING THIS MAPSTATETOPROPS SO I CAN CHECK FOR AND LOG OUT ANY USERS OTHERWISE LOGGED IN. MAYBE COULD DO ELSEWHERE
+
+export default connect(mapStateToProps)(Login);

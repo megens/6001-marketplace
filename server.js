@@ -37,10 +37,12 @@ app.post("/login", upload.none(), (req, res) => {
   dbo.collection("users").findOne({ username: name }, (err, user) => {
     if (err) {
       console.log("/login error");
-      return res.send(JSON.stringify({ success: false }));
+      return res.send(JSON.stringify({ success: false, msg: "db err" }));
     }
-    if (user === null) {
-      return res.send(JSON.stringify({ success: false }));
+    if (user === null || user === "browser") {
+      // browser is reserved word
+      console.log("user doesn't exist");
+      return res.send(JSON.stringify({ success: false, msg: "user null" }));
     }
     console.log(user.password);
     if (user.password === pwd) {
@@ -49,7 +51,7 @@ app.post("/login", upload.none(), (req, res) => {
       console.log("generated id", sessionId);
       sessions[sessionId] = name;
       res.cookie("sid", sessionId);
-      res.send(JSON.stringify({ success: true }));
+      res.send(JSON.stringify({ success: true, cart: user.cart }));
       return;
     }
   });
@@ -67,13 +69,29 @@ app.post("/signup", upload.none(), async (req, res) => {
       JSON.stringify({ success: false, message: "user already exists" })
     );
   }
-  dbo.collection("users").insertOne({ username: name, password: pwd });
+  dbo
+    .collection("users")
+    .insertOne({ username: name, password: pwd, cart: [] });
   console.log("signup success");
   let sessionId = generateId();
   console.log("generated id", sessionId);
   sessions[sessionId] = name;
   res.cookie("sid", sessionId);
   return res.send(JSON.stringify({ success: true }));
+});
+
+app.get("/all-items", async (req, res) => {
+  console.log("request to /all-items");
+  dbo
+    .collection("itemsForSale")
+    .find({})
+    .toArray((err, item) => {
+      if (err) {
+        console.log("error", err);
+        return res.send(JSON.stringify({ success: false }));
+      }
+      res.send(JSON.stringify(item));
+    });
 });
 
 // Your endpoints go before this line
