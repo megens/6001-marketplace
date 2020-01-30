@@ -39,7 +39,7 @@ app.post("/login", upload.none(), (req, res) => {
       console.log("/login error");
       return res.send(JSON.stringify({ success: false, msg: "db err" }));
     }
-    if (user === null || user === "browser") {
+    if (user === null || user === "browsing ...") {
       // browser is reserved word
       console.log("user doesn't exist");
       return res.send(JSON.stringify({ success: false, msg: "user null" }));
@@ -51,7 +51,15 @@ app.post("/login", upload.none(), (req, res) => {
       console.log("generated id", sessionId);
       sessions[sessionId] = name;
       res.cookie("sid", sessionId);
-      res.send(JSON.stringify({ success: true, cart: user.cart }));
+      res.send(
+        JSON.stringify({
+          success: true,
+          cart: user.cart,
+          sellerStatus: user.sellerStatus
+        })
+      );
+      console.log("loaded cart is ");
+      console.log(user);
       return;
     }
   });
@@ -77,6 +85,33 @@ app.post("/signup", upload.none(), async (req, res) => {
   console.log("generated id", sessionId);
   sessions[sessionId] = name;
   res.cookie("sid", sessionId);
+  return res.send(JSON.stringify({ success: true }));
+});
+
+app.post("/logout", upload.none(), async (req, res) => {
+  //delete sessions[sessionId];
+  //res.cookie("sid", 0); // this sets my cookie to zero, but doesn't actually delete it
+  let name = req.body.username;
+  let cart = JSON.parse(req.body.cart);
+  console.log("name and cart defined");
+  console.log(name);
+  console.log(cart);
+
+  dbo
+    .collection("users")
+    .updateOne({ username: name }, { $set: { cart: cart } });
+
+  console.log("db updated");
+  return res.send(JSON.stringify({ success: true }));
+});
+
+app.post("/become-seller", upload.none(), async (req, res) => {
+  let name = req.body.username;
+  dbo
+    .collection("users")
+    .updateOne({ username: name }, { $set: { sellerStatus: true } });
+
+  console.log("db updated");
   return res.send(JSON.stringify({ success: true }));
 });
 

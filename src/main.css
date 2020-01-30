@@ -22,10 +22,10 @@ body {
   background-color: white;
 }
 
-.banner {
+.top-banner {
   font-family: "Verdana", Geneva, sans-serif;
   display: flex;
-  background: linear-gradient(to bottom, #cc0000 0%, #ff6666 100%);
+  background-image: url("https:wallpaperplay.com/walls/full/1/b/5/130697.jpg");
   color: white;
   padding: 10px;
   border: 1px solid white;
@@ -36,33 +36,49 @@ body {
   margin: 0px;
 }
 
-.top-banner {
-  position: relative;
-  display: flex;
-  height: 55px;
-}
-
 .side-banner {
-  width: 100px;
+  width: 150px;
+  max-width: 150px;
+  min-width: 150px;
   position: relative;
   display: block;
   font-family: "Verdana", Geneva, sans-serif;
-  background: linear-gradient(to bottom, #cc0000 0%, #ff6666 100%);
+  /*background: linear-gradient(to bottom, #cc0000 0%, #ff6666 100%);
+  background-image: url("https:wallpaperplay.com/walls/full/5/2/c/112168.jpg");
+  background-image: url("https:wallpaperplay.com/walls/full/4/f/3/130698.jpg");*/
+  background-image: url("https:wallpaperplay.com/walls/full/1/b/5/130697.jpg");
   color: white;
+  text-decoration: none;
   padding: 10px;
   border: 1px solid white;
   margin: 10px;
+  margin-top: 0px;
+}
+
+.s-link {
+  margin: 10px;
+  position: relative;
+}
+
+.s-link > a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .side-and-body {
   position: relative;
   display: flex;
+  margin-top: 0px;
 }
 
 .shopping-cart {
-  position: absolute;
-  right: 20px;
-  top: 10px;
+  position: relative;
+  height: 60px;
+  left: -80px;
+  top: 20px;
+  margin: 0px;
 }
 
 .cart-icon {
@@ -72,6 +88,7 @@ body {
   margin-right: 0px;
   margin-left: 0px;
   margin-top: 0px;
+  height: 50px;
 }
 
 #cart-count {
@@ -99,12 +116,17 @@ body {
   padding: 10px;
   border: 1px solid white;
   margin: 10px;
+  margin-left: 0px;
+  margin-top: 0px;
 }
 
-.shop-shelf {
+.main-container {
   border: solid 1px black;
   margin: 10px;
+  margin-top: 0px;
+  margin-left: 0px;
   padding: 5px;
+  background-color: white;
 }
 
 .items-container {
@@ -119,7 +141,8 @@ body {
   justify-content: center;
   background-color: white;
   border: solid 1px black;
-  margin: 5px;
+  margin: 10px;
+  margin-left: 0px;
   padding: 5px;
 }
 

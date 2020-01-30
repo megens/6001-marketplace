@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Route, BrowserRouter } from "react-router-dom";
+import { Link, Route, BrowserRouter, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 //import LinkButton from "./LinkButton.jsx";
 import TopBanner from "./TopBanner.jsx";
@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <>
         <BrowserRouter>
-          <TopBanner />
+          {<TopBanner />}
           <div className="side-and-body">
             <SideBanner />
             <RoutesAndPaths />

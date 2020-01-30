@@ -36,7 +36,7 @@ const mapStateToProps = state => {
     username: state.username,
     cart: state.cart,
     cartTotal: state.cartTotal
-  }; // THIS WILL CHANGE
+  };
 };
 
 export default connect(mapStateToProps)(Cart);

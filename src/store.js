@@ -7,12 +7,19 @@ function reducer(state, action) {
         ...state,
         loggedIn: true,
         username: action.payload.username,
-        cart: action.payload.cart
+        cart: action.payload.cart,
+        sellerStatus: action.payload.sellerStatus
       };
     case "LOGOUT":
-      return { ...state, loggedIn: false, username: "" };
+      return {
+        ...state,
+        loggedIn: false,
+        username: undefined,
+        cart: [],
+        sellerStatus: false
+      };
     case "BROWSE":
-      console.log("dispatch browser");
+      console.log("dispatch browsing");
       return { ...state, loggedIn: false, username: "browsing ..." };
     case "LOAD-SHELF":
       console.log("load shelf");
@@ -45,9 +52,12 @@ function reducer(state, action) {
 
       return {
         ...state,
-        cart: cartCopy,
-        cartTotal: parseFloat(state.cartTotal) + newQuantity
+        cart: cartCopy
+        //cartTotal: parseFloat(state.cartTotal) + newQuantity
       };
+
+    case "BECOME-SELLER":
+      return { ...state, sellerStatus: true };
 
     default:
       return state;
@@ -59,9 +69,9 @@ const store = createStore(
   {
     loggedIn: false,
     username: undefined,
+    sellerStatus: false,
     shopItems: [],
-    cart: [],
-    cartTotal: 0
+    cart: []
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

@@ -27,7 +27,10 @@ class Signup extends Component {
     let parsed = JSON.parse(body);
     if (parsed.success) {
       console.log("signup success");
-      this.props.dispatch({ type: "LOGIN-SUCCESS", payload: username });
+      this.props.dispatch({
+        type: "LOGIN-SUCCESS",
+        payload: { username: username, cart: [] }
+      });
       //this.props.setUsername(username);
     }
   };

@@ -32,7 +32,11 @@ class Login extends Component {
       console.log(parsed);
       this.props.dispatch({
         type: "LOGIN-SUCCESS",
-        payload: { username, cart: parsed.cart }
+        payload: {
+          username,
+          cart: parsed.cart,
+          sellerStatus: parsed.sellerStatus
+        }
       });
       //this.props.setUsername(username);
     }

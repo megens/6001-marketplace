@@ -22,7 +22,7 @@ class ShopShelf extends Component {
 
   render = () => {
     return (
-      <div className="shop-shelf">
+      <div className="main-container">
         <h2>Shop</h2>
         <Search />
         <SearchResults />

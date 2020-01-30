@@ -12,22 +12,6 @@ class TopBanner extends Component {
     return (
       <>
         <div className="top-banner">
-          <Link to={"/shop"}>Shop</Link>
-          <span className="shopping-cart">
-            <Link to={"/cart"}>
-              <img
-                src="/icons/shopping_cart-24px (1).svg"
-                className="cart-icon"
-                height="50px"
-              />
-              <span id="cart-count">{this.props.cartTotal}</span>
-              {
-                // change this to cart contents size, soon!//
-              }
-            </Link>
-          </span>
-        </div>
-        <div className="banner">
           <img src="/icons/lego-man.png" height="80px" />
           <h2 className="no-margin">The Brick House</h2>
         </div>
@@ -38,10 +22,8 @@ class TopBanner extends Component {
 
 const mapStateToProps = state => {
   return {
-    username: state.username,
-    cart: state.cart,
-    cartTotal: state.cartTotal
-  }; // THIS WILL CHANGE
+    username: state.username
+  };
 };
 
 export default connect(mapStateToProps)(TopBanner);
