@@ -13,7 +13,7 @@ class TopBanner extends Component {
       <>
         <div className="top-banner">
           <img src="/icons/lego-man.png" height="80px" />
-          <h2 className="no-margin">The Brick House</h2>
+          <h1 className="no-margin">The Brick House</h1>
         </div>
       </>
     );

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Item from "./Item.jsx";
-import Design from "./Design.jsx";
-import BrickShelf from "./BrickShelf.jsx";
 
-class ShopShelf extends Component {
+import Design from "./Design.jsx";
+import BrickSearch from "./BrickSearch.jsx";
+import BrickSearchResults from "./BrickSearchResults.jsx";
+
+class BrickShelf extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,12 +17,13 @@ class ShopShelf extends Component {
   title = this.shopping ? "Shop" : "Select Design Parts";
 
   reload = async () => {
+    /*
     let response = await fetch("/all-items");
     let body = await response.text();
     console.log("/all-items response", body);
     let parsed = JSON.parse(body);
     this.props.dispatch({ type: "LOAD-ITEMS", payload: parsed });
-
+*/
     let response2 = await fetch("/all-designs");
     let body2 = await response2.text();
     console.log("/all-designs response", body2);
@@ -32,13 +34,30 @@ class ShopShelf extends Component {
   render = () => {
     return (
       <>
-        <BrickShelf shopping={this.shopping} />
+        <h2>Bricks</h2>
+        <h2>{this.title}</h2>
+        <BrickSearch />
+        <BrickSearchResults shopping={this.props.shopping} />
+
+        <h2>Designs</h2>
+        <div className="items-container">
+          {this.props.shopDesigns.map(shopDesign => (
+            <Design
+              key={shopDesign._id}
+              shopDesign={shopDesign}
+              shopping={this.shopping}
+            />
+          ))}
+        </div>
       </>
     );
   };
 }
 
 const mapStateToProps = state => {
-  return { shopItems: state.shopItems, shopDesigns: state.shopDesigns };
+  return {
+    shopItems: state.shopItems,
+    shopDesigns: state.shopDesigns
+  };
 };
-export default connect(mapStateToProps)(ShopShelf);
+export default connect(mapStateToProps)(BrickShelf);

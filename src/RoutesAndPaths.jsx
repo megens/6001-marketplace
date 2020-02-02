@@ -4,6 +4,7 @@ import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 import ShopShelf from "./ShopShelf.jsx";
 import MySeller from "./MySeller.jsx";
+import NewDesign from "./NewDesign.jsx";
 import Cart from "./Cart.jsx";
 import { connect } from "react-redux";
 import Logout from "./Logout.jsx";
@@ -16,7 +17,7 @@ class Routes extends Component {
   renderBrowseMarket = () => {
     console.log("browseMarket");
     this.props.dispatch({ type: "BROWSE" });
-    return <ShopShelf />;
+    return <ShopShelf shopType="cart" />;
   };
 
   renderLoginSignup = () => {
@@ -34,7 +35,7 @@ class Routes extends Component {
     }
     return (
       <>
-        <ShopShelf />
+        <ShopShelf shopType="cart" />
       </>
     );
   };
@@ -71,12 +72,16 @@ class Routes extends Component {
 
   renderShopShelf = () => {
     console.log("render shop");
-    return <ShopShelf />;
+    return <ShopShelf shopType="cart" />; // shopType = cart or design
   };
 
-  renderSalesPage = () => {
+  renderSalesPage = routerData => {
     console.log("become seller");
-    return <MySeller />;
+    return <MySeller rD={routerData} />;
+  };
+
+  renderNewDesign = routerData => {
+    return <NewDesign rD={routerData} />;
   };
 
   render = () => {
@@ -105,6 +110,7 @@ class Routes extends Component {
           path="/seller-page/"
           render={this.renderSalesPage}
         />
+        <Route exact={true} path="/new-design/" render={this.renderNewDesign} />
         {/*
         <Route exact={true} path="/seller/:sId" render={renderSeller} />
         <Route

@@ -63,16 +63,8 @@ function reducer(state, action) {
     case "BECOME-SELLER":
       return { ...state, sellerStatus: true };
 
-    case "UPDATE-BRICKSEARCH-OBJ":
-      console.log(action.payload.criterion);
-      console.log(action.payload.checked);
-      return {
-        ...state,
-        brickSearchObj: {
-          ...state.brickSearchObj,
-          [action.payload.criterion]: action.payload.checked
-        }
-      };
+    //case "UPDATE-BRICKSEARCH-OBJ":
+    //return { ...state };
     //brickSearchObj{... state.brickSearchObj, dimensions_1x1 : action.payload.checked}});
 
     default:

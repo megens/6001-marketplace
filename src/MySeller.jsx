@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import NewDesign from "./NewDesign.jsx";
+import LinkButton from "./LinkButton.jsx";
 
 class MySeller extends Component {
   constructor(props) {
@@ -31,20 +33,30 @@ class MySeller extends Component {
           this.props.sellerStatus === undefined) && (
           <input
             type="button"
-            value="Get Seller Status?"
+            value="Get Designer Status?"
             onClick={this.becomeSeller}
           />
         )}
+        {this.props.sellerStatus === true && (
+          <div>
+            <div>
+              <LinkButton to="/new-design">Begin New Design</LinkButton>
+              {
+                //<NewDesign rD={this.props.rD} />
+              }
+            </div>
 
-        <div>My Seller Page</div>
-        <div>Upload Item For Sale</div>
-        {
-          // multer form with fields
-        }
-        <div>My Sale Items</div>
-        {
-          // all items.map(seller === thisSeller)
-        }
+            <div>
+              <h2>My Designs</h2>
+              {
+                // designs.map(if is mine, show with edit options)
+              }
+            </div>
+            {
+              // all items.map(seller === thisSeller)
+            }
+          </div>
+        )}
       </div>
     );
     //

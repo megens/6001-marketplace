@@ -33,10 +33,7 @@ class SideBanner extends Component {
         <div className="side-banner">
           <div className="shopping-cart">
             <Link to={"/cart"}>
-              <img
-                src="/icons/shopping_cart-24px (1).svg"
-                className="cart-icon"
-              />
+              <img src="/icons/cart-image.svg" className="cart-icon" />
               <span id="cart-count">{totalCart}</span>
               {
                 // change this to cart contents size, soon!//
@@ -84,22 +81,23 @@ class SideBanner extends Component {
           {this.props.username !== "browsing ..." &&
             this.props.username !== undefined && (
               <div className="s-link">
-                <Link to={"/my-inventory"}>My Inventory</Link>
+                <Link to={"/my-inventory"}>My Brick Inventory</Link>
               </div>
             )}
 
           {this.props.username !== "browsing ..." &&
             this.props.username !== undefined &&
-            this.props.sellerStatus === false && (
+            (this.props.sellerStatus === false ||
+              this.props.sellerStatus === undefined) && (
               <div className="s-link">
-                <Link to={"/become-seller"}>Become a Seller</Link>
+                <Link to={"/become-seller"}>Become a Designer</Link>
               </div>
             )}
           {this.props.username !== "browsing ..." &&
             this.props.username !== undefined &&
             this.props.sellerStatus === true && (
               <div className="s-link">
-                <Link to={"/seller-page"}>My Sales Page</Link>
+                <Link to={"/seller-page"}>My Designs</Link>
               </div>
             )}
         </div>

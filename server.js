@@ -77,9 +77,12 @@ app.post("/signup", upload.none(), async (req, res) => {
       JSON.stringify({ success: false, message: "user already exists" })
     );
   }
-  dbo
-    .collection("users")
-    .insertOne({ username: name, password: pwd, cart: [] });
+  dbo.collection("users").insertOne({
+    username: name,
+    password: pwd,
+    cart: [],
+    sellerStatus: false
+  });
   console.log("signup success");
   let sessionId = generateId();
   console.log("generated id", sessionId);
@@ -115,6 +118,36 @@ app.post("/become-seller", upload.none(), async (req, res) => {
   return res.send(JSON.stringify({ success: true }));
 });
 
+app.post(
+  "/new-design",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "instructions", maxCount: 1 }
+  ]),
+  async (req, res) => {
+    console.log("writing new-design to db");
+    let imgFile = req.files.image;
+    let instrFile = req.files.instructions && req.files.instructions; // defined only if exists
+    let imgFrontendPath = "/uploads/" + imgFile[0].filename;
+    let instrFrontendPath = instrFile
+      ? "/uploads/" + instrFile[0].filename
+      : "";
+
+    let instrFileType = instrFile ? instrFile[0].mimetype : ""; // not needed here, but good to know in case
+    dbo.collection("designs").insertOne({
+      username: req.body.username,
+      description: req.body.description,
+      imgFrontendPath: imgFrontendPath,
+      instrFrontendPath: instrFrontendPath,
+      designInventory: [],
+      completed: false
+    });
+
+    console.log("db updated");
+    return res.send(JSON.stringify({ success: true }));
+  }
+);
+
 app.get("/all-items", async (req, res) => {
   console.log("request to /all-items");
   dbo
@@ -126,6 +159,20 @@ app.get("/all-items", async (req, res) => {
         return res.send(JSON.stringify({ success: false }));
       }
       res.send(JSON.stringify(item));
+    });
+});
+
+app.get("/all-designs", async (req, res) => {
+  console.log("request to /all-designs");
+  dbo
+    .collection("designs")
+    .find({})
+    .toArray((err, design) => {
+      if (err) {
+        console.log("error", err);
+        return res.send(JSON.stringify({ success: false }));
+      }
+      res.send(JSON.stringify(design));
     });
 });
 

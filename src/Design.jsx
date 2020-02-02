@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-class Item extends Component {
+class Design extends Component {
   constructor(props) {
     super(props);
     this.state = { quantity: 0 };
@@ -37,35 +37,26 @@ class Item extends Component {
   render = () => {
     const {
       _id,
-      dimensions,
-      depth,
-      color,
-      inStock,
-      unitPrice,
-      seller,
-      imgPath,
-      includesPlan,
-      type
-    } = this.props.shopItem;
+      username,
+      description,
+      imgFrontendPath,
+      instrFrontendPath
+    } = this.props.shopDesign;
     return (
       <div className="item-container">
         <div className="img-container">
-          <img src={imgPath} height="60px" />
-          {type} : {dimensions}
+          {description}
           <br />
-          height: {depth}
+          <img src={imgFrontendPath} height="60px" />
+          <img src={instrFrontendPath} height="60px" />
           <br />
-          color : {color}
-          <br />
-          price per unit : {unitPrice}
-          <br /># in stock : {parseFloat(inStock).toLocaleString("en")}
+          price per unit : {"1.00"}
         </div>
         <form onSubmit={this.addToCart}>
           Quantity:{" "}
           <input
             type="number"
             min="0"
-            max={inStock}
             onChange={this.quantityChangeHandler}
             value={this.state.quantity}
           ></input>
@@ -87,4 +78,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Item);
+export default connect(mapStateToProps)(Design);
