@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Link, Route, BrowserRouter, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
+import Logout from "./Logout.jsx";
 import ShopShelf from "./ShopShelf.jsx";
 import MySeller from "./MySeller.jsx";
 import NewDesign from "./NewDesign.jsx";
 import Cart from "./Cart.jsx";
-import { connect } from "react-redux";
-import Logout from "./Logout.jsx";
+import Checkout from "./Checkout.jsx";
+import MyInventory from "./MyInventory.jsx";
 
 class Routes extends Component {
   constructor() {
@@ -17,10 +19,14 @@ class Routes extends Component {
   renderBrowseMarket = () => {
     console.log("browseMarket");
     this.props.dispatch({ type: "BROWSE" });
-    return <ShopShelf shopType="cart" />;
+    return <ShopShelf />;
   };
 
   renderLoginSignup = () => {
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "cart"
+    });
     console.log("username is " + this.props.username);
     if (
       this.props.username === undefined ||
@@ -35,7 +41,7 @@ class Routes extends Component {
     }
     return (
       <>
-        <ShopShelf shopType="cart" />
+        <ShopShelf />
       </>
     );
   };
@@ -70,9 +76,18 @@ class Routes extends Component {
     return <Cart />;
   };
 
+  renderCheckout = () => {
+    console.log("running checkout");
+    return <Checkout />;
+  };
+
   renderShopShelf = () => {
     console.log("render shop");
-    return <ShopShelf shopType="cart" />; // shopType = cart or design
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "cart"
+    });
+    return <ShopShelf />; // shopType = cart or design
   };
 
   renderSalesPage = routerData => {
@@ -81,7 +96,20 @@ class Routes extends Component {
   };
 
   renderNewDesign = routerData => {
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "design"
+    });
     return <NewDesign rD={routerData} />;
+  };
+
+  renderMyInventory = () => {
+    console.log("render inventory");
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "personalInventory"
+    });
+    return <MyInventory />; // shopType = cart or design
   };
 
   render = () => {
@@ -131,8 +159,8 @@ const mapStateToProps = state => {
     loggedIn: state.loggedIn,
     username: state.username,
     cart: state.cart,
-    cartTotal: state.cartTotal,
-    sellerStatus: state.sellerStatus
+    sellerStatus: state.sellerStatus,
+    currentItemContainer: state.currentItemContainer
   }; // THIS WILL CHANGE
 };
 

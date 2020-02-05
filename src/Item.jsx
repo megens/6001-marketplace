@@ -21,6 +21,7 @@ class Item extends Component {
       alert("You must be logged in to Add To Cart. Please log in or register");
       return;
     }
+    /*
     this.props.dispatch({
       type: this.props.shopping ? "ADD-TO-CART" : "ADD-TO-DESIGN",
       payload: {
@@ -31,6 +32,16 @@ class Item extends Component {
         quantity: this.state.quantity
       }
     });
+    */
+    this.props.dispatch({
+      type: "ADD-TO-ANY-CONTAINER",
+      payload: {
+        whichContainer: this.props.currentItemContainer,
+        item: this.props.shopItem,
+        quantity: this.state.quantity
+      }
+    });
+
     this.setState({ quantity: 0 });
   };
 
@@ -71,7 +82,7 @@ class Item extends Component {
           ></input>
           <input
             type="submit"
-            value={this.props.shopping ? "Add To Cart" : "Add To Design"}
+            value={"Add To " + this.props.currentItemContainer}
           ></input>
         </form>
       </div>
@@ -83,6 +94,7 @@ const mapStateToProps = state => {
   return {
     username: state.username,
     cart: state.cart,
+    currentItemContainer: state.currentItemContainer,
     currentDesignCart: state.currentDesignCart
   };
 };

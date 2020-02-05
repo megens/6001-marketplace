@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Item from "./Item.jsx";
 
-class SearchResults extends Component {
+class BrickSearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,8 @@ class SearchResults extends Component {
   updateInventory = async () => {
     let response = await fetch("/all-items");
     let body = await response.text();
-    console.log("/all-items response", body);
+    console.log("/all-items response");
+    //console.log(body);
     let parsed = JSON.parse(body);
     this.props.dispatch({ type: "LOAD-ITEMS", payload: parsed });
   };
@@ -54,7 +55,7 @@ class SearchResults extends Component {
     console.log(dimensionsCriteria, colorCriteria, depthCriteria);
 
     let filteredItems = this.props.shopItems.filter(item => {
-      console.log(item);
+      //console.log(item);
       return (
         dimensionsCriteria.includes(item.dimensions) &&
         colorCriteria.includes(item.color) &&
@@ -63,18 +64,10 @@ class SearchResults extends Component {
     });
     return (
       <>
-        <div>SearchResults</div>;
-        <div className="main-container">
-          {/*}
-          <button onClick={this.reload}> View Shelf </button>
-          */}
+        <div className="main-container" id="brickSearchResults">
           <div className="items-container">
             {filteredItems.map(shopItem => (
-              <Item
-                key={shopItem._id}
-                shopItem={shopItem}
-                shopping={this.props.shopping}
-              />
+              <Item key={shopItem._id} shopItem={shopItem} />
             ))}
           </div>
         </div>
@@ -89,4 +82,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SearchResults);
+export default connect(mapStateToProps)(BrickSearchResults);

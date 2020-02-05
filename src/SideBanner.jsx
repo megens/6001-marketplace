@@ -81,7 +81,7 @@ class SideBanner extends Component {
           {this.props.username !== "browsing ..." &&
             this.props.username !== undefined && (
               <div className="s-link">
-                <Link to={"/my-inventory"}>My Brick Inventory</Link>
+                <Link to={"/my-inventory"}>My Parts Inventory</Link>
               </div>
             )}
 

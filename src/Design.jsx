@@ -22,16 +22,48 @@ class Design extends Component {
       return;
     }
     this.props.dispatch({
-      type: this.props.shopping ? "ADD-TO-CART" : "ADD-TO-DESIGN",
+      type: "ADD-TO-ANY-CONTAINER",
       payload: {
-        cart: this.props.shopping
-          ? this.props.cart
-          : this.props.currentDesignCart,
-        item: this.props.shopItem,
+        whichContainer: "cart",
+        // SEPARATE CART FOR DESIGN CONTAINER?
         quantity: this.state.quantity
       }
     });
     this.setState({ quantity: 0 });
+  };
+
+  calculatePartDiff = () => {
+    let partDiffArray = [];
+    this.props.currentDesignCart.map(part => {
+      let partId = part._id.find(this.props.personalInventory);
+      let inventoryQuantity = this.props.personalInventory.match(partId)
+        .quantity;
+      let designQuantity = part.quantity;
+      let gap = (designQuantity - inventoryQuantity).floor(0); // this is all made up code
+      if (gap > 0) {
+        partDiffArray.push({ item: part, quantity: gap });
+      }
+    });
+    // determine total of gap parts from inventory
+    let gapTotal = 88;
+    let addGap = confirm(
+      "Your personal inventory is missing " +
+        gapTotal +
+        " parts to build this design. Add these parts to your cart?"
+    );
+    if (addGap) {
+      partDiffArray.forEach(item => {
+        this.props.dispatch({
+          type: "ADD-TO-ANY-CONTAINER",
+          payload: {
+            whichContainer: "cart",
+            item: item,
+            quantity: item.quantity
+          }
+        });
+      });
+    }
+    return partDiffArray;
   };
 
   render = () => {
@@ -62,7 +94,7 @@ class Design extends Component {
           ></input>
           <input
             type="submit"
-            value={this.props.shopping ? "Add To Cart" : "Add To Design"}
+            value={"Add To " + this.props.currentItemContainer}
           ></input>
         </form>
       </div>
@@ -74,6 +106,7 @@ const mapStateToProps = state => {
   return {
     username: state.username,
     cart: state.cart,
+    currentItemContainer: state.currentItemContainer,
     currentDesignCart: state.currentDesignCart
   };
 };

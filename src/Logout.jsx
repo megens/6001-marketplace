@@ -11,7 +11,10 @@ class Logout extends Component {
     let data = new FormData();
     data.append("username", this.props.username);
     data.append("cart", JSON.stringify(this.props.cart));
-    console.log("what is happening to my cart?");
+    data.append(
+      "personalInventory",
+      JSON.stringify(this.props.personalInventory)
+    );
     console.log(this.props.cart);
     let response = await fetch("/logout", { method: "POST", body: data });
     let body = await response.text();
@@ -23,6 +26,7 @@ class Logout extends Component {
       payload: {
         username: this.props.username,
         cart: this.props.cart,
+        personalInventory: this.props.personalInventory,
         sellerStatus: this.props.sellerStatus
       }
     });
@@ -45,7 +49,8 @@ const mapStateToProps = (state, props) => {
   return {
     loggedIn: state.loggedIn,
     username: state.username,
-    cart: state.cart
+    cart: state.cart,
+    personalInventory: state.personalInventory
   };
 };
 

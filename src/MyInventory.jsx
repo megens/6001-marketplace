@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, Route, BrowserRouter } from "react-router-dom";
 import CartItem from "./CartItem.jsx";
 import LinkButton from "./LinkButton.jsx";
 
-class Cart extends Component {
+class MyInventory extends Component {
   constructor() {
     super();
   }
 
-  emptyCart = () => {
+  emptyInventory = () => {
     {
-      confirm("Empty cart without purchase?")
-        ? this.props.dispatch({ type: "EMPTY-CART" })
+      confirm("Delete Entire Inventory?")
+        ? this.props.dispatch({
+            type: "EMPTY-ANY-CONTAINER",
+            payload: { whichContainer: "personalInventory" }
+          })
         : "";
     }
   };
@@ -20,12 +22,11 @@ class Cart extends Component {
   render = () => {
     return (
       <>
-        <LinkButton to="/checkout">Check Out</LinkButton>
-        <button type="button" onClick={this.emptyCart}>
-          Empty Cart
+        <button type="button" onClick={this.emptyInventory}>
+          Empty Inventory
         </button>
         <div className="items-container">
-          {this.props.cart.map(cartItem => (
+          {this.props.personalInventory.map(cartItem => (
             <CartItem
               key={cartItem.item._id}
               cartItem={cartItem.item}
@@ -41,8 +42,8 @@ class Cart extends Component {
 const mapStateToProps = state => {
   return {
     username: state.username,
-    cart: state.cart
+    personalInventory: state.personalInventory
   };
 };
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps)(MyInventory);

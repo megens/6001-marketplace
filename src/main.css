@@ -1,8 +1,12 @@
 body {
   background-color: #bbb;
   margin: 0;
+  font-family: "Verdana", Geneva, sans-serif;
 }
 
+button {
+  margin-right: 5px;
+}
 .overlay {
   z-index: 50;
   position: fixed;
@@ -23,7 +27,6 @@ body {
 }
 
 .top-banner {
-  font-family: "Verdana", Geneva, sans-serif;
   display: flex;
   background-image: url("https:wallpaperplay.com/walls/full/1/b/5/130697.jpg");
   color: white;
@@ -42,7 +45,6 @@ body {
   min-width: 150px;
   position: relative;
   display: block;
-  font-family: "Verdana", Geneva, sans-serif;
   /*background: linear-gradient(to bottom, #cc0000 0%, #ff6666 100%);
   background-image: url("https:wallpaperplay.com/walls/full/5/2/c/112168.jpg");
   background-image: url("https:wallpaperplay.com/walls/full/4/f/3/130698.jpg");*/
@@ -191,6 +193,47 @@ input[type="number"] {
   width: 50px;
 }
 
-.search-container {
+.criteria-container {
   display: flex;
+  justify-content: left;
+}
+
+.criterion-container {
+  margin-left: 5px;
+  margin-right: 25px;
+  width: 120px;
+}
+
+.inline {
+  display: inline-block;
+  margin: 5px;
+}
+
+#filter-button {
+  position: relative;
+  height: 22px;
+  top: -5px;
+}
+
+#brickSearchResults {
+  height: 400px;
+  min-width: 700px;
+  overflow: auto;
+}
+
+#payment-form {
+  position: absolute;
+}
+
+#payment-div {
+  position: relative;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#payment-form > input {
+  float: right;
+  clear: both;
 }

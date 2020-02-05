@@ -32,7 +32,8 @@ class CartItem extends Component {
           price per unit : {unitPrice}
           <br /># in stock : {parseFloat(inStock).toLocaleString("en")}
           <br />
-          Quantity in Cart: {this.props.cartQuantity}
+          {"Quantity in " + this.props.currentItemContainer}:{" "}
+          {this.props.cartQuantity}
         </div>
       </div>
     );

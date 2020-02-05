@@ -55,6 +55,7 @@ app.post("/login", upload.none(), (req, res) => {
         JSON.stringify({
           success: true,
           cart: user.cart,
+          personalInventory: user.personalInventory,
           sellerStatus: user.sellerStatus
         })
       );
@@ -81,6 +82,7 @@ app.post("/signup", upload.none(), async (req, res) => {
     username: name,
     password: pwd,
     cart: [],
+    personalInventory: [],
     sellerStatus: false
   });
   console.log("signup success");
@@ -96,13 +98,17 @@ app.post("/logout", upload.none(), async (req, res) => {
   //res.cookie("sid", 0); // this sets my cookie to zero, but doesn't actually delete it
   let name = req.body.username;
   let cart = JSON.parse(req.body.cart);
-  console.log("name and cart defined");
+  let personalInventory = JSON.parse(req.body.personalInventory);
+  console.log("name and cart and personalInventory defined");
   console.log(name);
   console.log(cart);
-
+  console.log(personalInventory);
   dbo
     .collection("users")
-    .updateOne({ username: name }, { $set: { cart: cart } });
+    .updateOne(
+      { username: name },
+      { $set: { cart: cart, personalInventory: personalInventory } }
+    );
 
   console.log("db updated");
   return res.send(JSON.stringify({ success: true }));
