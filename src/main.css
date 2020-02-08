@@ -237,3 +237,8 @@ input[type="number"] {
   float: right;
   clear: both;
 }
+
+#balance-div {
+  margin-top: 5px;
+  font-weight: bold;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class CartItem extends Component {
   constructor(props) {
@@ -6,7 +7,7 @@ class CartItem extends Component {
   }
 
   render = () => {
-    console.log(this.props.cartItem);
+    console.log(this.props.currentItemContainer);
     const {
       _id,
       dimensions,
@@ -19,25 +20,29 @@ class CartItem extends Component {
       includesPlan,
       type
     } = this.props.cartItem;
+    let costStatement = "price / unit: " + unitPrice;
     return (
       <div className="item-container">
         <div className="img-container">
           <img src={imgPath} height="60px" />
+          {this.props.currentItemContainer === "cart" ? costStatement : ""}
+          <br />
+          number : {this.props.cartQuantity}
+          <br />
           {type} : {dimensions}
           <br />
           height: {depth}
           <br />
           color : {color}
-          <br />
-          price per unit : {unitPrice}
-          <br /># in stock : {parseFloat(inStock).toLocaleString("en")}
-          <br />
-          {"Quantity in " + this.props.currentItemContainer}:{" "}
-          {this.props.cartQuantity}
         </div>
       </div>
     );
   };
 }
 
-export default CartItem;
+const mapStateToProps = state => {
+  return {
+    currentItemContainer: state.currentItemContainer
+  };
+};
+export default connect(mapStateToProps)(CartItem);

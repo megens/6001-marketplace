@@ -11,7 +11,7 @@ class DesignShelf extends Component {
     return (
       <>
         <DesignSearch />
-        <DesignSearchResults />
+        <DesignSearchResults show={this.props.show} />
       </>
     );
   };
