@@ -17,13 +17,22 @@ class Cart extends Component {
     }
   };
 
+  sum = (a, b) => {
+    return a + b;
+  };
+
   render = () => {
+    let totalCartCost = this.props.cart
+      .map(x => x.quantity * x.item.unitPrice)
+      .reduce(this.sum, 0);
+
     return (
       <>
         <LinkButton to="/checkout">Check Out</LinkButton>
         <button type="button" onClick={this.emptyCart}>
           Empty Cart
         </button>
+        <div id="balance-div">Total Cost $ {totalCartCost.toFixed(2)}</div>
         <div className="items-container">
           {this.props.cart.map(cartItem => (
             <CartItem

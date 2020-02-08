@@ -145,7 +145,9 @@ app.post(
       description: req.body.description,
       imgFrontendPath: imgFrontendPath,
       instrFrontendPath: instrFrontendPath,
-      designInventory: [],
+      designParts: JSON.parse(req.body.designParts),
+      theme: req.body.theme,
+      size: req.body.size,
       completed: false
     });
 
@@ -153,6 +155,70 @@ app.post(
     return res.send(JSON.stringify({ success: true }));
   }
 );
+app.post(
+  "/edit-design",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "instructions", maxCount: 1 }
+  ]),
+
+  async (req, res) => {
+    console.log("writing new-design to db");
+    console.log(req.body);
+    let imgFrontendPath = "";
+    let instrFrontendPath = "";
+    if (req.files.image) {
+      // if a new file has been uploaded
+      let imgFile = req.files.image;
+      imgFrontendPath = "/uploads/" + imgFile[0].filename;
+    } else {
+      imgFrontendPath = req.body.formerImgFrontendPath;
+      console.log("imgFrontendPath is ", imgFrontendPath);
+    }
+    console.log("imgFrontendPath is ", imgFrontendPath);
+    //
+    if (req.files.instructions) {
+      // if a new file has been uploaded
+      let instrFile = req.files.instructions;
+      instrFrontendPath = "/uploads/" + instrFile[0].filename;
+    } else {
+      instrFrontendPath = req.body.formerInstrFrontendPath;
+    }
+
+    //let instrFile = req.files.instructions && req.files.instructions; // defined only if exists
+    //let imgFrontendPath = "/uploads/" + imgFile[0].filename;
+    //let instrFrontendPath = instrFile
+    //  ? "/uploads/" + instrFile[0].filename
+    //  : "";
+
+    //let instrFileType = instrFile ? instrFile[0].mimetype : ""; // not needed here, but good to know in case
+    dbo.collection("designs").updateOne(
+      { _id: ObjectID(req.body._id) },
+      {
+        $set: {
+          username: req.body.username,
+          description: req.body.description,
+          theme: req.body.theme,
+          size: "small",
+          imgFrontendPath: imgFrontendPath,
+          instrFrontendPath: instrFrontendPath,
+          designParts: JSON.parse(req.body.designParts)
+        }
+      }
+    );
+    console.log("db updated");
+    return res.send(JSON.stringify({ success: true }));
+  }
+);
+
+app.post("/delete-design", upload.none(), async (req, res) => {
+  console.log("deleting design on db");
+  console.log(req.body);
+
+  dbo.collection("designs").remove({ _id: ObjectID(req.body._id) });
+  console.log("db updated for delete");
+  return res.send(JSON.stringify({ success: true }));
+});
 
 app.get("/all-items", async (req, res) => {
   console.log("request to /all-items");

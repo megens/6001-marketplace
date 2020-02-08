@@ -6,7 +6,7 @@ class Checkout extends Component {
   constructor() {
     super();
     this.state = {
-      saveCartToInventory: false,
+      saveCartToInventory: true,
       userCcInput: "",
       userCvvInput: "",
       userExpirationInput: "",
@@ -81,7 +81,7 @@ class Checkout extends Component {
     return (
       <>
         <button type="button" onClick={this.toggleSaveCartToInventory}>
-          Save Parts To Your Inventory?
+          Save Parts To Inventory?
         </button>
         {this.state.saveCartToInventory ? (
           <h4>Cart contents WILL be saved to your inventory</h4>

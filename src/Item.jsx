@@ -21,18 +21,7 @@ class Item extends Component {
       alert("You must be logged in to Add To Cart. Please log in or register");
       return;
     }
-    /*
-    this.props.dispatch({
-      type: this.props.shopping ? "ADD-TO-CART" : "ADD-TO-DESIGN",
-      payload: {
-        cart: this.props.shopping
-          ? this.props.cart
-          : this.props.currentDesignCart,
-        item: this.props.shopItem,
-        quantity: this.state.quantity
-      }
-    });
-    */
+
     this.props.dispatch({
       type: "ADD-TO-ANY-CONTAINER",
       payload: {

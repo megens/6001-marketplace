@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NewDesign from "./NewDesign.jsx";
+import DesignShelf from "./DesignShelf.jsx";
 import LinkButton from "./LinkButton.jsx";
 
 class MySeller extends Component {
@@ -48,13 +49,8 @@ class MySeller extends Component {
 
             <div>
               <h2>My Designs</h2>
-              {
-                // designs.map(if is mine, show with edit options)
-              }
+              <DesignShelf show="mine" />
             </div>
-            {
-              // all items.map(seller === thisSeller)
-            }
           </div>
         )}
       </div>

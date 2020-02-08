@@ -12,10 +12,20 @@ class ShopShelf extends Component {
     return (
       <>
         <BrickShelf />
-        <DesignShelf />
+        {this.props.currentItemContainer === "cart" ? (
+          <DesignShelf show="ALL" />
+        ) : (
+          <></>
+        )}
       </>
     );
   };
 }
 
-export default ShopShelf;
+const mapStateToProps = state => {
+  return {
+    currentItemContainer: state.currentItemContainer
+  }; // THIS WILL CHANGE
+};
+
+export default connect(mapStateToProps)(ShopShelf);

@@ -5,9 +5,6 @@ import Item from "./Item.jsx";
 class BrickSearchResults extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      allItems: []
-    };
   }
 
   componentDidMount = () => {
@@ -78,6 +75,7 @@ class BrickSearchResults extends Component {
 const mapStateToProps = state => {
   return {
     shopItems: state.shopItems,
+    shopDesigns: state.shopDesigns,
     brickSearchObj: state.brickSearchObj
   };
 };

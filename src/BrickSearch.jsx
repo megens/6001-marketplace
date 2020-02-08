@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 class BrickSearch extends Component {
   constructor(props) {
     super(props);
-    this.state = { revealFilter: false };
+    this.state = { revealFilter: true };
   }
 
   allCriteria = Object.keys(this.props.brickSearchObj);
@@ -62,7 +62,7 @@ class BrickSearch extends Component {
       <div className="main-container">
         <div>
           <h2 className="no-margin" className="inline">
-            {this.title} Bricks
+            {this.title}
           </h2>
           <span>
             <button id="filter-button" type="button" onClick={this.showFilter}>

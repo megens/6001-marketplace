@@ -11,15 +11,15 @@ class DesignSearchResults extends Component {
   }
 
   componentDidMount = () => {
-    this.updateInventory();
-    this.checkInterval = setInterval(this.updateInventory, 60000); // checks database every xxx milliseconds ... every minute
+    this.updateDesignInventory();
+    this.checkInterval = setInterval(this.updateDesignInventory, 60000); // checks database every xxx milliseconds ... every minute
   };
 
   componentWillUnmount = () => {
     clearInterval(this.checkInterval); // NB to stop the checkinterval running forever while away
   };
 
-  updateInventory = async () => {
+  updateDesignInventory = async () => {
     let response = await fetch("/all-designs");
     let body = await response.text();
     console.log("/all-designs response");
@@ -55,12 +55,23 @@ class DesignSearchResults extends Component {
         sizeCriteria.includes(design.size)
       );
     });
+
+    if (this.props.show === "mine") {
+      filteredDesigns = filteredDesigns.filter(design => {
+        return design.username === this.props.username;
+      });
+    }
+
     return (
       <>
         <div className="main-container" id="designSearchResults">
           <div className="items-container">
-            {this.props.shopDesigns.map(shopDesign => (
-              <Design key={shopDesign._id} shopDesign={shopDesign} />
+            {filteredDesigns.map(shopDesign => (
+              <Design
+                key={shopDesign._id}
+                shopDesign={shopDesign}
+                show={this.props.show}
+              />
             ))}
           </div>
         </div>
@@ -70,6 +81,7 @@ class DesignSearchResults extends Component {
 }
 const mapStateToProps = state => {
   return {
+    username: state.username,
     shopDesigns: state.shopDesigns,
     designSearchObj: state.designSearchObj
   };

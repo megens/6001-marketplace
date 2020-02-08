@@ -7,6 +7,8 @@ import Logout from "./Logout.jsx";
 import ShopShelf from "./ShopShelf.jsx";
 import MySeller from "./MySeller.jsx";
 import NewDesign from "./NewDesign.jsx";
+import EditDesign from "./EditDesign.jsx";
+import DeleteDesign from "./DeleteDesign.jsx";
 import Cart from "./Cart.jsx";
 import Checkout from "./Checkout.jsx";
 import MyInventory from "./MyInventory.jsx";
@@ -87,7 +89,7 @@ class Routes extends Component {
       type: "SET-CURRENT-CONTAINER-TYPE",
       payload: "cart"
     });
-    return <ShopShelf />; // shopType = cart or design
+    return <ShopShelf />;
   };
 
   renderSalesPage = routerData => {
@@ -98,9 +100,27 @@ class Routes extends Component {
   renderNewDesign = routerData => {
     this.props.dispatch({
       type: "SET-CURRENT-CONTAINER-TYPE",
-      payload: "design"
+      payload: "currentDesignCart"
     });
     return <NewDesign rD={routerData} />;
+  };
+
+  renderEditDesign = routerData => {
+    let designId = routerData.match.params.designId;
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "currentDesignCart"
+    });
+    return <EditDesign designId={designId} rD={routerData} />;
+  };
+
+  renderDeleteDesign = routerData => {
+    let designId = routerData.match.params.designId;
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "currentDesignCart"
+    });
+    return <DeleteDesign designId={designId} rD={routerData} />;
   };
 
   renderMyInventory = () => {
@@ -139,6 +159,16 @@ class Routes extends Component {
           render={this.renderSalesPage}
         />
         <Route exact={true} path="/new-design/" render={this.renderNewDesign} />
+        <Route
+          exact={true}
+          path="/edit-design/:designId"
+          render={this.renderEditDesign}
+        />
+        <Route
+          exact={true}
+          path="/delete-design/:designId"
+          render={this.renderDeleteDesign}
+        />
         {/*
         <Route exact={true} path="/seller/:sId" render={renderSeller} />
         <Route
@@ -160,7 +190,8 @@ const mapStateToProps = state => {
     username: state.username,
     cart: state.cart,
     sellerStatus: state.sellerStatus,
-    currentItemContainer: state.currentItemContainer
+    currentItemContainer: state.currentItemContainer,
+    shopDesigns: state.shopDesigns
   }; // THIS WILL CHANGE
 };
 

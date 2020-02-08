@@ -1,11 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import LinkButton from "./LinkButton.jsx";
 
 class Design extends Component {
   constructor(props) {
     super(props);
     this.state = { quantity: 0 };
   }
+
+  quantity = item => {
+    return item.quantity;
+  };
+
+  sum = (a, b) => {
+    return a + b;
+  };
 
   quantityChangeHandler = e => {
     this.setState({ quantity: e.target.value });
@@ -32,38 +42,16 @@ class Design extends Component {
     this.setState({ quantity: 0 });
   };
 
-  calculatePartDiff = () => {
-    let partDiffArray = [];
-    this.props.currentDesignCart.map(part => {
-      let partId = part._id.find(this.props.personalInventory);
-      let inventoryQuantity = this.props.personalInventory.match(partId)
-        .quantity;
-      let designQuantity = part.quantity;
-      let gap = (designQuantity - inventoryQuantity).floor(0); // this is all made up code
-      if (gap > 0) {
-        partDiffArray.push({ item: part, quantity: gap });
-      }
+  addPartsGap = (designParts, personalInventory) => {
+    let designPartsWithGap = designParts.map(designPart => {
+      let inventoryMatch = personalInventory.find(part => {
+        return part.item._id === designPart.item._id;
+      }); // inventoryMatch is the corresponding part in your personalInventory
+      let inventoryQuantity = inventoryMatch ? inventoryMatch.quantity : 0; // if part in inventory, log amt
+      designPart.gap = Math.max(0, designPart.quantity - inventoryQuantity);
+      return designPart;
     });
-    // determine total of gap parts from inventory
-    let gapTotal = 88;
-    let addGap = confirm(
-      "Your personal inventory is missing " +
-        gapTotal +
-        " parts to build this design. Add these parts to your cart?"
-    );
-    if (addGap) {
-      partDiffArray.forEach(item => {
-        this.props.dispatch({
-          type: "ADD-TO-ANY-CONTAINER",
-          payload: {
-            whichContainer: "cart",
-            item: item,
-            quantity: item.quantity
-          }
-        });
-      });
-    }
-    return partDiffArray;
+    return designPartsWithGap;
   };
 
   render = () => {
@@ -72,8 +60,18 @@ class Design extends Component {
       username,
       description,
       imgFrontendPath,
-      instrFrontendPath
+      instrFrontendPath,
+      designParts
     } = this.props.shopDesign;
+
+    let designPartsWithGap = this.addPartsGap(
+      designParts,
+      this.props.personalInventory
+    );
+
+    let totalCart = designParts.map(this.quantity).reduce(this.sum, 0);
+    let totalGap = designPartsWithGap.map(x => x.gap).reduce(this.sum, 0);
+
     return (
       <div className="item-container">
         <div className="img-container">
@@ -92,11 +90,24 @@ class Design extends Component {
             onChange={this.quantityChangeHandler}
             value={this.state.quantity}
           ></input>
+          Total parts: {totalCart}
           <input
             type="submit"
             value={"Add To " + this.props.currentItemContainer}
           ></input>
         </form>
+        Designer: {username}
+        Missing Pieces: {totalGap}
+        {this.props.username === username && this.props.show === "mine" ? (
+          <Link to={"/edit-design/" + _id}>Edit Design</Link>
+        ) : (
+          <></>
+        )}
+        {this.props.username === username && this.props.show === "mine" ? (
+          <Link to={"/delete-design/" + _id}>Delete Design</Link>
+        ) : (
+          <></>
+        )}
       </div>
     );
   };
@@ -107,7 +118,8 @@ const mapStateToProps = state => {
     username: state.username,
     cart: state.cart,
     currentItemContainer: state.currentItemContainer,
-    currentDesignCart: state.currentDesignCart
+    currentDesignCart: state.currentDesignCart,
+    personalInventory: state.personalInventory
   };
 };
 
