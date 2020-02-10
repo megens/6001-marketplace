@@ -29,7 +29,13 @@ class Signup extends Component {
       console.log("signup success");
       this.props.dispatch({
         type: "LOGIN-SUCCESS",
-        payload: { username: username, cart: [] }
+        payload: {
+          username: username,
+          cart: [],
+          designsCart: [],
+          personalInventory: [],
+          sellerStatus: false
+        }
       });
       //this.props.setUsername(username);
     }

@@ -7,6 +7,10 @@ body {
 button {
   margin-right: 5px;
 }
+
+img {
+  margin-right: 5px;
+}
 .overlay {
   z-index: 50;
   position: fixed;
@@ -58,12 +62,29 @@ button {
 }
 
 .s-link {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
   margin: 10px;
   margin-bottom: 20px;
   position: relative;
 }
 
 .s-link > a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.d-link {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  margin: 5px;
+
+  position: relative;
+}
+
+.d-link > a {
   color: white;
   text-decoration: none;
   font-size: 1.2rem;
@@ -176,17 +197,37 @@ button {
 
 .item-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: white;
   border: solid 1px black;
   margin: 10px;
   margin-left: 0px;
   padding: 5px;
+  width: 350px;
 }
 
 .img-container {
-  display: flex;
+  display: block;
   margin-right: 5px;
+  padding: 2px;
+}
+
+.cart-item-container {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: white;
+  border: solid 1px black;
+  margin: 10px;
+  margin-left: 0px;
+  padding: 5px;
+  width: 250px;
+}
+.description {
+  display: block;
+}
+.number {
+  color: blue;
+  font-weight: bold;
 }
 
 input[type="number"] {

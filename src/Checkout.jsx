@@ -135,6 +135,7 @@ const mapStateToProps = state => {
   return {
     username: state.username,
     cart: state.cart,
+    designsCart: state.designsCart,
     personalInventory: state.personalInventory
   };
 };

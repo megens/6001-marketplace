@@ -22,9 +22,11 @@ class CartItem extends Component {
     } = this.props.cartItem;
     let costStatement = "price / unit: " + unitPrice;
     return (
-      <div className="item-container">
+      <div className="cart-item-container">
         <div className="img-container">
           <img src={imgPath} height="60px" />
+        </div>
+        <div>
           {this.props.currentItemContainer === "cart" ? costStatement : ""}
           <br />
           number : {this.props.cartQuantity}

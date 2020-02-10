@@ -23,9 +23,11 @@ class SideBanner extends Component {
     let totalCart = 0;
     if (this.props.loggedIn) {
       console.log("cart is defined", this.props.cart);
-      console.log(totalCart);
-      totalCart = this.props.cart.map(this.quantity).reduce(this.sum, 0);
-      console.log(totalCart);
+      let totalDesignCart = this.props.designsCart.length;
+      let totalPartCart = this.props.cart
+        .map(this.quantity)
+        .reduce(this.sum, 0);
+      totalCart = totalDesignCart + totalPartCart;
     }
 
     return (
@@ -100,6 +102,9 @@ class SideBanner extends Component {
                 <Link to={"/seller-page"}>My Designs</Link>
               </div>
             )}
+          <div className="s-link">
+            <Link to={"/upload-part"}>UPLOAD PART (TBD)</Link>
+          </div>
         </div>
       </>
     );
@@ -111,6 +116,7 @@ const mapStateToProps = state => {
     username: state.username,
     loggedIn: state.loggedIn,
     cart: state.cart,
+    designsCart: state.designsCart,
     sellerStatus: state.sellerStatus
   }; // THIS WILL CHANGE
 };

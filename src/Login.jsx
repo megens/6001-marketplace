@@ -35,6 +35,7 @@ class Login extends Component {
         payload: {
           username,
           cart: parsed.cart,
+          designsCart: parsed.designsCart,
           personalInventory: parsed.personalInventory,
           sellerStatus: parsed.sellerStatus
         }

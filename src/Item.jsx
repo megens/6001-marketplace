@@ -51,29 +51,37 @@ class Item extends Component {
       <div className="item-container">
         <div className="img-container">
           <img src={imgPath} height="60px" />
+          <div>
+            <b>in stock</b>
+          </div>
+        </div>
+        <div className="description">
           {type} : {dimensions}
-          <br />
-          height: {depth}
           <br />
           color : {color}
           <br />
-          price per unit : {unitPrice}
-          <br /># in stock : {parseFloat(inStock).toLocaleString("en")}
+          height: {depth}
+          <br />
+          price per unit : <span className="number">${unitPrice}</span>
+          <br />
+          {
+            //{parseFloat(inStock).toLocaleString("en")}
+          }
+          <form onSubmit={this.addToCart}>
+            Quantity:{" "}
+            <input
+              type="number"
+              min="0"
+              max={inStock}
+              onChange={this.quantityChangeHandler}
+              value={this.state.quantity}
+            ></input>
+            <input
+              type="submit"
+              value={"Add To " + this.props.currentItemContainer}
+            ></input>
+          </form>
         </div>
-        <form onSubmit={this.addToCart}>
-          Quantity:{" "}
-          <input
-            type="number"
-            min="0"
-            max={inStock}
-            onChange={this.quantityChangeHandler}
-            value={this.state.quantity}
-          ></input>
-          <input
-            type="submit"
-            value={"Add To " + this.props.currentItemContainer}
-          ></input>
-        </form>
       </div>
     );
   };

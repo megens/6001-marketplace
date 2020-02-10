@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import AddDesignToCart from "./AddDesignToCart.jsx";
 import LinkButton from "./LinkButton.jsx";
 
 class Design extends Component {
@@ -21,7 +22,7 @@ class Design extends Component {
     this.setState({ quantity: e.target.value });
   };
 
-  addToCart = evt => {
+  addDesignToCart = evt => {
     evt.preventDefault();
     console.log("add to cart");
     if (
@@ -31,15 +32,10 @@ class Design extends Component {
       alert("You must be logged in to Add To Cart. Please log in or register");
       return;
     }
-    this.props.dispatch({
-      type: "ADD-TO-ANY-CONTAINER",
-      payload: {
-        whichContainer: "cart",
-        // SEPARATE CART FOR DESIGN CONTAINER?
-        quantity: this.state.quantity
-      }
-    });
+
     this.setState({ quantity: 0 });
+
+    return <AddDesignToCart />;
   };
 
   addPartsGap = (designParts, personalInventory) => {
@@ -69,45 +65,60 @@ class Design extends Component {
       this.props.personalInventory
     );
 
-    let totalCart = designParts.map(this.quantity).reduce(this.sum, 0);
+    let totalCart = designParts.map(x => x.quantity).reduce(this.sum, 0);
     let totalGap = designPartsWithGap.map(x => x.gap).reduce(this.sum, 0);
+    let totalCartCost = designParts
+      .map(x => x.quantity * x.item.unitPrice)
+      .reduce(this.sum, 0);
+    let totalGapCost = designParts
+      .map(x => x.gap * x.item.unitPrice)
+      .reduce(this.sum, 0);
 
     return (
       <div className="item-container">
         <div className="img-container">
-          {description}
-          <br />
-          <img src={imgFrontendPath} height="60px" />
-          <img src={instrFrontendPath} height="60px" />
-          <br />
-          price per unit : {"1.00"}
+          <img src={imgFrontendPath} height="95px" />
+          <div>Designer: {username}</div>
         </div>
-        <form onSubmit={this.addToCart}>
-          Quantity:{" "}
-          <input
-            type="number"
-            min="0"
-            onChange={this.quantityChangeHandler}
-            value={this.state.quantity}
-          ></input>
-          Total parts: {totalCart}
-          <input
-            type="submit"
-            value={"Add To " + this.props.currentItemContainer}
-          ></input>
-        </form>
-        Designer: {username}
-        Missing Pieces: {totalGap}
-        {this.props.username === username && this.props.show === "mine" ? (
-          <Link to={"/edit-design/" + _id}>Edit Design</Link>
-        ) : (
-          <></>
-        )}
-        {this.props.username === username && this.props.show === "mine" ? (
-          <Link to={"/delete-design/" + _id}>Delete Design</Link>
-        ) : (
-          <></>
-        )}
+        <div className="description">
+          <b>{description}</b>
+
+          {/* don't reveal instructions pre-purchase
+          <img src={instrFrontendPath} height="60px" />
+          */}
+          <div>
+            Plan Cost : <span className="number">$1.00</span>
+          </div>
+          <div>
+            Total parts: {totalCart}
+            <br />(<span className="number">$ {totalCartCost.toFixed(2)}</span>)
+          </div>
+          <div>
+            Missing Parts: {totalGap}
+            <br />(<span className="number">$ {totalGapCost.toFixed(2)}</span>)
+          </div>
+          {this.props.username === username && this.props.show === "mine" ? (
+            <></>
+          ) : (
+            <div className="d-link">
+              <Link to={"/view-design/" + _id}>View Design</Link>
+            </div>
+          )}
+          {this.props.username === username && this.props.show === "mine" ? (
+            <div className="d-link">
+              <Link to={"/edit-design/" + _id}>Edit</Link>
+            </div>
+          ) : (
+            <></>
+          )}
+          {this.props.username === username && this.props.show === "mine" ? (
+            <div className="d-link">
+              <Link to={"/delete-design/" + _id}>Delete</Link>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     );
   };
@@ -117,6 +128,7 @@ const mapStateToProps = state => {
   return {
     username: state.username,
     cart: state.cart,
+    designsCart: state.designsCart,
     currentItemContainer: state.currentItemContainer,
     currentDesignCart: state.currentDesignCart,
     personalInventory: state.personalInventory

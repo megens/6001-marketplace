@@ -11,9 +11,26 @@ class NewDesign extends Component {
       theme: "general",
       image: "",
       instructions: "", // full instructions, not revealed until purchase
-      size: "small"
+      designParts: []
     };
   }
+
+  componentDidMount = () => {
+    this.props.dispatch({
+      type: "SET-CURRENT-CONTAINER-TYPE",
+      payload: "currentDesignCart"
+    });
+
+    this.props.dispatch({
+      type: "EMPTY-ANY-CONTAINER",
+      payload: { whichContainer: "currentDesignCart" }
+    });
+  };
+
+  sum = (a, b) => {
+    return a + b;
+  };
+
   desc_ChangeHandler = e => {
     this.setState({ description: e.target.value });
   };
@@ -32,7 +49,6 @@ class NewDesign extends Component {
     data.append("username", this.props.username);
     data.append("description", this.state.description);
     data.append("theme", this.state.theme);
-    data.append("size", this.state.size);
     data.append("image", this.state.image);
     data.append("instructions", this.state.instructions);
     data.append("designParts", JSON.stringify(this.props.currentDesignCart));
@@ -42,10 +58,17 @@ class NewDesign extends Component {
     this.setState({ theme: "" });
     this.setState({ image: "" });
     this.setState({ instructions: "" });
+    this.setState({ completed: true });
+    this.setState({ designParts: [] });
+
     alert("Design update logged");
     this.props.rD.history.push("/seller-page"); // push the User experience to a new path
   };
   render = () => {
+    let totalDesignParts = this.props.currentDesignCart
+      .map(x => x.quantity)
+      .reduce(this.sum, 0);
+
     return (
       <div className="main-container">
         <form onSubmit={this.submitHandler}>
@@ -68,29 +91,28 @@ class NewDesign extends Component {
             />
           </div>
           <div>
-            Image File:
+            Upload New Image File:
             <input type="file" onChange={this.img_ChangeHandler} />
           </div>
           <div>
-            Full Instructions:
+            Upload Full Instructions:
             <input type="file" onChange={this.instr_ChangeHandler} />
           </div>
           <input type="submit" value="Upload Design Plans" />
         </form>
         <div className="design-cart">
           <img src="/icons/wrench-image.svg" className="design-cart-icon" />
-          <span id="design-cart-count">{88}</span>
-          {
-            // change this to cart contents size, soon!//
-          }
+          <span id="design-cart-count">{totalDesignParts}</span>
         </div>
-        <h2>Specify Parts Inventory</h2>
+        <h2>Design Parts</h2>
+        {this.props.currentDesignCart.map((part, index) => {
+          return (
+            <div key={index}>
+              <img src={part.item.imgPath} height="60px" /> x {part.quantity}
+            </div>
+          );
+        })}
         <BrickShelf />
-        <input
-          type="button"
-          value="Mark Design Complete"
-          onClick={this.completeDesign}
-        />
       </div>
     );
   };

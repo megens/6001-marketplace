@@ -11,6 +11,7 @@ class Logout extends Component {
     let data = new FormData();
     data.append("username", this.props.username);
     data.append("cart", JSON.stringify(this.props.cart));
+    data.append("designsCart", JSON.stringify(this.props.designsCart));
     data.append(
       "personalInventory",
       JSON.stringify(this.props.personalInventory)
@@ -26,6 +27,7 @@ class Logout extends Component {
       payload: {
         username: this.props.username,
         cart: this.props.cart,
+        designsCart: this.props.designsCart,
         personalInventory: this.props.personalInventory,
         sellerStatus: this.props.sellerStatus
       }
@@ -50,6 +52,7 @@ const mapStateToProps = (state, props) => {
     loggedIn: state.loggedIn,
     username: state.username,
     cart: state.cart,
+    designsCart: state.designsCart,
     personalInventory: state.personalInventory
   };
 };

@@ -75,9 +75,6 @@ class EditDesign extends Component {
   };
   submitHandler = evt => {
     evt.preventDefault();
-
-    // WORK FROM HERE RATHER ... REDO
-
     let data = new FormData();
     data.append("username", this.designMatch.username);
     data.append("_id", this.designMatch._id);
@@ -97,7 +94,7 @@ class EditDesign extends Component {
     this.setState({ theme: "" });
     this.setState({ image: "" });
     this.setState({ instructions: "" });
-    this.setState({ completed: false });
+    this.setState({ completed: true });
     this.setState({ designParts: [] });
 
     alert("Design update logged");
@@ -142,9 +139,6 @@ class EditDesign extends Component {
         <div className="design-cart">
           <img src="/icons/wrench-image.svg" className="design-cart-icon" />
           <span id="design-cart-count">{totalDesignParts}</span>
-          {
-            // change this to cart contents size, soon!//
-          }
         </div>
         <h2>Design Parts</h2>
         {this.props.currentDesignCart.map((part, index) => {
@@ -155,11 +149,6 @@ class EditDesign extends Component {
           );
         })}
         <BrickShelf />
-        <input
-          type="button"
-          value="Flag Design Complete"
-          onClick={this.completeDesign}
-        />
       </div>
     );
   };

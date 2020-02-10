@@ -9,6 +9,7 @@ function reducer(state, action) {
         loggedIn: true,
         username: action.payload.username,
         cart: action.payload.cart,
+        designsCart: action.payload.designsCart,
         personalInventory: action.payload.personalInventory,
         sellerStatus: action.payload.sellerStatus
       };
@@ -19,6 +20,7 @@ function reducer(state, action) {
         loggedIn: false,
         username: undefined,
         cart: [],
+        designsCart: [],
         personalInventory: [],
         sellerStatus: false
       };
@@ -34,6 +36,17 @@ function reducer(state, action) {
     }
     case "LOAD-ITEMS": {
       console.log("load items shelf");
+      action.payload.sort(function(a, b) {
+        return a.depth === b.depth ? 0 : a.depth > b.depth || -1;
+      });
+      action.payload.sort(function(a, b) {
+        return a.color === b.color ? 0 : a.color > b.color || -1;
+      });
+      action.payload.sort(function(a, b) {
+        return a.dimensions === b.dimensions
+          ? 0
+          : a.dimensions > b.dimensions || -1;
+      });
       return { ...state, shopItems: action.payload };
     }
     case "LOAD-DESIGNS": {
@@ -68,6 +81,23 @@ function reducer(state, action) {
       return {
         ...state,
         cart: cartCopy
+      };
+    }
+
+    case "ADD-DESIGN-TO-CART": {
+      console.log("adding design to cart");
+      let newDesign = action.payload;
+      let newQuantity = 1; // for Designs
+      let designsCartCopy = state.designsCart.slice();
+
+      designsCartCopy.push({
+        design: newDesign,
+        quantity: newQuantity
+      });
+
+      return {
+        ...state,
+        designsCart: designsCartCopy
       };
     }
 
@@ -109,7 +139,7 @@ function reducer(state, action) {
       };
     }
     case "EMPTY-CART": {
-      return { ...state, cart: [] };
+      return { ...state, cart: [], designsCart: [] };
     }
     case "EMPTY-ANY-CONTAINER": {
       return { ...state, [action.payload.whichContainer]: [] };
@@ -156,11 +186,13 @@ const store = createStore(
     shopItems: [],
     shopDesigns: [],
     cart: [],
+    designsCart: [],
     currentDesignCart: [],
     personalInventory: [],
     brickSearchObj: {
       dimensions_1x1: true,
       dimensions_1x2: true,
+      dimensions_1x3: true,
       dimensions_1x4: true,
       dimensions_2x2: true,
       dimensions_2x3: true,
@@ -171,7 +203,8 @@ const store = createStore(
       color_yellow: true,
       color_green: true,
       color_blue: true,
-      color_violet: true,
+      color_white: true,
+      color_black: true,
       depth_standard: true,
       depth_thin: true
     },
@@ -179,6 +212,7 @@ const store = createStore(
       theme_general: true,
       theme_space: true,
       theme_pirates: true,
+      theme_dinosaurs: true,
       size_small: true,
       size_medium: true,
       size_large: true

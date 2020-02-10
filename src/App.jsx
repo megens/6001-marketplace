@@ -30,7 +30,8 @@ const mapStateToProps = state => {
   return {
     loggedIn: state.loggedIn,
     username: state.username,
-    cart: state.cart
+    cart: state.cart,
+    designsCart: state.designsCart
   }; // THIS WILL CHANGE
 };
 

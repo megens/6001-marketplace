@@ -7,11 +7,13 @@ import Logout from "./Logout.jsx";
 import ShopShelf from "./ShopShelf.jsx";
 import MySeller from "./MySeller.jsx";
 import NewDesign from "./NewDesign.jsx";
+import NewPart from "./NewPart.jsx";
 import EditDesign from "./EditDesign.jsx";
 import DeleteDesign from "./DeleteDesign.jsx";
 import Cart from "./Cart.jsx";
 import Checkout from "./Checkout.jsx";
 import MyInventory from "./MyInventory.jsx";
+import AddDesignToCart from "./AddDesignToCart.jsx";
 
 class Routes extends Component {
   constructor() {
@@ -105,6 +107,10 @@ class Routes extends Component {
     return <NewDesign rD={routerData} />;
   };
 
+  renderUploadPart = routerData => {
+    return <NewPart rD={routerData} />;
+  };
+
   renderEditDesign = routerData => {
     let designId = routerData.match.params.designId;
     this.props.dispatch({
@@ -121,6 +127,11 @@ class Routes extends Component {
       payload: "currentDesignCart"
     });
     return <DeleteDesign designId={designId} rD={routerData} />;
+  };
+
+  renderViewDesign = routerData => {
+    let designId = routerData.match.params.designId;
+    return <AddDesignToCart designId={designId} rD={routerData} />;
   };
 
   renderMyInventory = () => {
@@ -169,6 +180,17 @@ class Routes extends Component {
           path="/delete-design/:designId"
           render={this.renderDeleteDesign}
         />
+        <Route
+          exact={true}
+          path="/view-design/:designId"
+          render={this.renderViewDesign}
+        />
+        <Route
+          exact={true}
+          path="/upload-part/"
+          render={this.renderUploadPart}
+        />
+
         {/*
         <Route exact={true} path="/seller/:sId" render={renderSeller} />
         <Route
@@ -189,6 +211,7 @@ const mapStateToProps = state => {
     loggedIn: state.loggedIn,
     username: state.username,
     cart: state.cart,
+    designsCart: state.designsCart,
     sellerStatus: state.sellerStatus,
     currentItemContainer: state.currentItemContainer,
     shopDesigns: state.shopDesigns

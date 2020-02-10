@@ -55,6 +55,7 @@ app.post("/login", upload.none(), (req, res) => {
         JSON.stringify({
           success: true,
           cart: user.cart,
+          designsCart: user.designsCart,
           personalInventory: user.personalInventory,
           sellerStatus: user.sellerStatus
         })
@@ -82,6 +83,7 @@ app.post("/signup", upload.none(), async (req, res) => {
     username: name,
     password: pwd,
     cart: [],
+    designsCart: [],
     personalInventory: [],
     sellerStatus: false
   });
@@ -98,17 +100,22 @@ app.post("/logout", upload.none(), async (req, res) => {
   //res.cookie("sid", 0); // this sets my cookie to zero, but doesn't actually delete it
   let name = req.body.username;
   let cart = JSON.parse(req.body.cart);
+  let designsCart = JSON.parse(req.body.designsCart);
   let personalInventory = JSON.parse(req.body.personalInventory);
   console.log("name and cart and personalInventory defined");
   console.log(name);
   console.log(cart);
   console.log(personalInventory);
-  dbo
-    .collection("users")
-    .updateOne(
-      { username: name },
-      { $set: { cart: cart, personalInventory: personalInventory } }
-    );
+  dbo.collection("users").updateOne(
+    { username: name },
+    {
+      $set: {
+        cart: cart,
+        designsCart: designsCart,
+        personalInventory: personalInventory
+      }
+    }
+  );
 
   console.log("db updated");
   return res.send(JSON.stringify({ success: true }));
@@ -140,6 +147,7 @@ app.post(
       : "";
 
     let instrFileType = instrFile ? instrFile[0].mimetype : ""; // not needed here, but good to know in case
+    console.log("up to HEREEEE now");
     dbo.collection("designs").insertOne({
       username: req.body.username,
       description: req.body.description,
@@ -147,8 +155,8 @@ app.post(
       instrFrontendPath: instrFrontendPath,
       designParts: JSON.parse(req.body.designParts),
       theme: req.body.theme,
-      size: req.body.size,
-      completed: false
+      size: "small",
+      completed: true
     });
 
     console.log("db updated");
@@ -200,6 +208,7 @@ app.post(
           description: req.body.description,
           theme: req.body.theme,
           size: "small",
+          completed: true,
           imgFrontendPath: imgFrontendPath,
           instrFrontendPath: instrFrontendPath,
           designParts: JSON.parse(req.body.designParts)
@@ -246,6 +255,24 @@ app.get("/all-designs", async (req, res) => {
       }
       res.send(JSON.stringify(design));
     });
+});
+
+app.post("/new-part", upload.none(), async (req, res) => {
+  console.log("writing new-part to db");
+  dbo.collection("itemsForSale").insertOne({
+    dimensions: req.body.dimensions,
+    depth: req.body.depth,
+    color: req.body.color,
+    inStock: 10000,
+    unitPrice: req.body.unitPrice,
+    seller: "house",
+    imgPath: req.body.imgPath,
+    includesPlan: "false",
+    type: req.body.type
+  });
+
+  console.log("db updated");
+  return res.send(JSON.stringify({ success: true }));
 });
 
 // Your endpoints go before this line
