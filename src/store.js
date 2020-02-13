@@ -94,7 +94,21 @@ function reducer(state, action) {
         design: newDesign,
         quantity: newQuantity
       });
+      return {
+        ...state,
+        designsCart: designsCartCopy
+      };
+    }
 
+    case "DELETE-DESIGN-FROM-CART": {
+      console.log("deleting design from cart");
+      let idToDelete = action.payload;
+      console.log(idToDelete);
+      let designsCartCopy = state.designsCart.slice();
+      let idx = designsCartCopy.findIndex(d => d.design._id === idToDelete);
+      let removed = designsCartCopy.splice(idx, 1);
+      console.log(removed);
+      console.log(designsCartCopy);
       return {
         ...state,
         designsCart: designsCartCopy
@@ -194,10 +208,12 @@ const store = createStore(
       dimensions_1x2: true,
       dimensions_1x3: true,
       dimensions_1x4: true,
+      dimensions_1x6: true,
       dimensions_2x2: true,
       dimensions_2x3: true,
       dimensions_2x4: true,
       dimensions_2x6: true,
+      dimensions_2x8: true,
       color_red: true,
       color_orange: true,
       color_yellow: true,
@@ -205,6 +221,8 @@ const store = createStore(
       color_blue: true,
       color_white: true,
       color_black: true,
+      color_grey: true,
+      color_clear: true,
       depth_standard: true,
       depth_thin: true
     },

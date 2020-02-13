@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ShopShelf from "./ShopShelf.jsx";
 import BrickShelf from "./BrickShelf.jsx";
+import { getDesignPriceAndSize } from "./Utilities.jsx";
 
 class EditDesign extends Component {
   constructor(props) {
@@ -75,6 +76,13 @@ class EditDesign extends Component {
   };
   submitHandler = evt => {
     evt.preventDefault();
+    const designPriceAndSize = getDesignPriceAndSize(
+      this.props.currentDesignCart
+    );
+    const price = designPriceAndSize[0];
+    const size = designPriceAndSize[1];
+    console.log("price and size");
+    console.log(price, size);
     let data = new FormData();
     data.append("username", this.designMatch.username);
     data.append("_id", this.designMatch._id);
@@ -88,8 +96,10 @@ class EditDesign extends Component {
     data.append("designParts", JSON.stringify(this.props.currentDesignCart));
     data.append("formerImgFrontendPath", this.designMatch.imgFrontendPath);
     data.append("formerInstrFrontendPath", this.designMatch.instrFrontendPath);
-
+    data.append("unitPrice", price);
+    data.append("size", size);
     fetch("/edit-design", { method: "POST", body: data });
+
     this.setState({ description: "" });
     this.setState({ theme: "" });
     this.setState({ image: "" });
@@ -141,13 +151,15 @@ class EditDesign extends Component {
           <span id="design-cart-count">{totalDesignParts}</span>
         </div>
         <h2>Design Parts</h2>
-        {this.props.currentDesignCart.map((part, index) => {
-          return (
-            <div key={index}>
-              <img src={part.item.imgPath} height="60px" /> x {part.quantity}
-            </div>
-          );
-        })}
+        <div className="items-container">
+          {this.props.currentDesignCart.map((part, index) => {
+            return (
+              <div key={index}>
+                <img src={part.item.imgPath} height="60px" /> x {part.quantity}
+              </div>
+            );
+          })}
+        </div>
         <BrickShelf />
       </div>
     );

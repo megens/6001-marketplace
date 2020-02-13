@@ -22,7 +22,7 @@ class Checkout extends Component {
     console.log("writing cart contents to inventory");
     if (this.state.saveCartToInventory) {
       this.props.cart.forEach(item => {
-        if (item.item.type === "brick") {
+        if (item.item.type !== "design") {
           this.props.dispatch({
             type: "ADD-TO-ANY-CONTAINER",
             payload: {

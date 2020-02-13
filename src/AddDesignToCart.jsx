@@ -103,7 +103,8 @@ class AddDesignToCart extends Component {
       description,
       imgFrontendPath,
       instrFrontendPath,
-      designParts
+      designParts,
+      unitPrice
     } = designMatch;
 
     let designPartsWithGap = this.addPartsGap(
@@ -133,7 +134,7 @@ class AddDesignToCart extends Component {
           <br />
           <input type="radio" name="addDesignRadio" id="design-only" />
           Design Only (
-          <span className="number">$ {totalCartCost.toFixed(2)}</span>)
+          <span className="number">$ {(unitPrice * 1).toFixed(2)}</span>)
           <br />
           <input type="radio" name="addDesignRadio" id="design-plus-all" />
           Design plus All {totalCart} Parts (
@@ -146,6 +147,21 @@ class AddDesignToCart extends Component {
           <input type="submit" value="Add To Cart" />{" "}
           <button onClick={this.unCheck}>Cancel</button>
         </form>
+        <div>
+          <h2>Design Parts</h2>
+          <div className="main-container">
+            <div className="items-container">
+              {designParts.map((part, index) => {
+                return (
+                  <div key={index}>
+                    <img src={part.item.imgPath} height="60px" /> x{" "}
+                    {part.quantity}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     );
   };

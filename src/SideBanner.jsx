@@ -102,9 +102,11 @@ class SideBanner extends Component {
                 <Link to={"/seller-page"}>My Designs</Link>
               </div>
             )}
-          <div className="s-link">
+          {/*
+            <div className="s-link">
             <Link to={"/upload-part"}>UPLOAD PART (TBD)</Link>
           </div>
+          */}
         </div>
       </>
     );

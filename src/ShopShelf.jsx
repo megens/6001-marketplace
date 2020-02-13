@@ -11,12 +11,12 @@ class ShopShelf extends Component {
   render = () => {
     return (
       <>
-        <BrickShelf />
         {this.props.currentItemContainer === "cart" ? (
           <DesignShelf show="ALL" />
         ) : (
           <></>
         )}
+        <BrickShelf />
       </>
     );
   };

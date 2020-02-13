@@ -8,6 +8,12 @@ button {
   margin-right: 5px;
 }
 
+#button-x {
+  position: absolute;
+  top: 8px;
+  right: 5px;
+}
+
 img {
   margin-right: 5px;
 }
@@ -222,6 +228,19 @@ img {
   padding: 5px;
   width: 250px;
 }
+
+.cart-design-container {
+  display: block;
+  justify-content: space-evenly;
+  background-color: white;
+  border: solid 1px black;
+  margin: 10px;
+  margin-left: 0px;
+  padding: 5px;
+  width: 250px;
+  position: relative;
+}
+
 .description {
   display: block;
 }

@@ -155,7 +155,8 @@ app.post(
       instrFrontendPath: instrFrontendPath,
       designParts: JSON.parse(req.body.designParts),
       theme: req.body.theme,
-      size: "small",
+      size: req.body.size,
+      unitPrice: req.body.unitPrice,
       completed: true
     });
 
@@ -192,13 +193,6 @@ app.post(
     } else {
       instrFrontendPath = req.body.formerInstrFrontendPath;
     }
-
-    //let instrFile = req.files.instructions && req.files.instructions; // defined only if exists
-    //let imgFrontendPath = "/uploads/" + imgFile[0].filename;
-    //let instrFrontendPath = instrFile
-    //  ? "/uploads/" + instrFile[0].filename
-    //  : "";
-
     //let instrFileType = instrFile ? instrFile[0].mimetype : ""; // not needed here, but good to know in case
     dbo.collection("designs").updateOne(
       { _id: ObjectID(req.body._id) },
@@ -207,7 +201,8 @@ app.post(
           username: req.body.username,
           description: req.body.description,
           theme: req.body.theme,
-          size: "small",
+          size: req.body.size,
+          unitPrice: req.body.unitPrice,
           completed: true,
           imgFrontendPath: imgFrontendPath,
           instrFrontendPath: instrFrontendPath,

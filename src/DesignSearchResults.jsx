@@ -45,8 +45,8 @@ class DesignSearchResults extends Component {
         return criterion.replace("size_", "");
       });
 
-    console.log(allCriteria);
-    console.log(themeCriteria, sizeCriteria);
+    //console.log(allCriteria);
+    //console.log(themeCriteria, sizeCriteria);
 
     let filteredDesigns = this.props.shopDesigns.filter(design => {
       //console.log(design);

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 class BrickSearch extends Component {
   constructor(props) {
     super(props);
-    this.state = { revealFilter: true };
+    this.state = { revealFilter: false };
   }
 
   allCriteria = Object.keys(this.props.brickSearchObj);
@@ -19,7 +19,9 @@ class BrickSearch extends Component {
   );
 
   title =
-    this.props.currentItemContainer === "cart" ? "Shop" : "Select Design Parts";
+    this.props.currentItemContainer === "cart"
+      ? "Shop Parts"
+      : "Select Design Parts";
 
   capitalize = word => {
     return word[0].toUpperCase() + word.substr(1);

@@ -46,24 +46,26 @@ class Login extends Component {
 
   render = () => {
     return (
-      <form className="login-form" onSubmit={this.submitHandler}>
-        <div>
-          <h3>Log In:</h3>
-        </div>
-        Username:
-        <input
-          type="text"
-          onChange={this.usernameChange}
-          value={this.state.usernameInput}
-        ></input>{" "}
-        Password:
-        <input
-          type="text"
-          onChange={this.passwordChange}
-          value={this.state.passwordInput}
-        ></input>{" "}
-        <input type="submit" value="Log In" />
-      </form>
+      <>
+        <form className="login-form" onSubmit={this.submitHandler}>
+          <div>
+            <h3>Log In:</h3>
+          </div>
+          Username:
+          <input
+            type="text"
+            onChange={this.usernameChange}
+            value={this.state.usernameInput}
+          ></input>{" "}
+          Password:
+          <input
+            type="password"
+            onChange={this.passwordChange}
+            value={this.state.passwordInput}
+          ></input>{" "}
+          <input type="submit" value="Log In" />
+        </form>
+      </>
     );
     //
   };
