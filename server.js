@@ -11,15 +11,17 @@ let reloadMagic = require("./reload-magic.js");
 let sha1 = require("sha1");
 reloadMagic(app);
 let sessions = {};
-
 app.use("/", express.static("build")); // Needed for the HTML and JS files
 app.use("/", express.static("public")); // Needed for local assets
 app.use("/uploads", express.static("uploads"));
 app.use("/icons", express.static("icons"));
+let configJson = require("./config.json"); //(mongoDB url access file ... .gitignore this)
+let url = configJson.url;
 
 let dbo = undefined;
-let url =
-  "mongodb+srv://bob:bobsue@cluster0-davol.mongodb.net/test?retryWrites=true&w=majority";
+/*let url =
+  "mongodb+srv:// ... this detail moved to config.json, imported and placed in .gitignore for security reasons";
+*/
 MongoClient.connect(url, { useNewUrlParser: true }, (err, db) => {
   dbo = db.db("alibay"); //
 });
